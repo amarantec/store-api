@@ -7,7 +7,8 @@ defmodule Api.Accounts.User do
   schema "users" do
     field :email, :string
     field :hash_password, :string
-
+    field :role, :string
+		has_many :addresses, Api.Addresses.Address
     timestamps(type: :utc_datetime)
   end
 
