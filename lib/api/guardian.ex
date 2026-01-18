@@ -51,5 +51,5 @@ defmodule Api.Guardian do
       encode_and_sign(user)
 
     {:ok, user, token}
- end
+  end
 end

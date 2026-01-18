@@ -3,8 +3,8 @@ defmodule ApiWeb.ProductController do
 
   alias Api.Products
   alias Api.Products.Product
-	alias Api.Accounts.User
-	
+  alias Api.Accounts.User
+
   action_fallback ApiWeb.FallbackController
 
   def index(conn, _params) do
@@ -13,11 +13,11 @@ defmodule ApiWeb.ProductController do
   end
 
   def create(conn, %{"product" => product_params}) do
-		with {:ok, %Product{} = product} <- Products.create_product(product_params) do
-		  conn
-		  |> put_status(:created)
-		  |> render(:show, product: product)
-		end
+    with {:ok, %Product{} = product} <- Products.create_product(product_params) do
+      conn
+      |> put_status(:created)
+      |> render(:show, product: product)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -27,15 +27,17 @@ defmodule ApiWeb.ProductController do
 
   def update(conn, %{"id" => id, "product" => product_params}) do
     product = Products.get_product!(id)
+
     with {:ok, %Product{} = product} <- Products.update_product(product, product_params) do
-    	render(conn, :show, product: product)
+      render(conn, :show, product: product)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     product = Products.get_product!(id)
-		with {:ok, %Product{}} <- Products.delete_product(product) do
-		  send_resp(conn, :no_content, "")
-		end
-	end
+
+    with {:ok, %Product{}} <- Products.delete_product(product) do
+      send_resp(conn, :no_content, "")
+    end
+  end
 end

@@ -14,11 +14,11 @@ db_name =
   System.get_env("POSTGRES_DB") || raise "POSTGRES_DB environment variable not set."
 
 secret_key_base =
-      System.get_env("SECRET_KEY_BASE") ||
-        raise """
-          environment variable SECRET_KEY_BASE is missing.
-          You can generate one by calling: mix phx.gen.secret
-        """
+  System.get_env("SECRET_KEY_BASE") ||
+    raise """
+      environment variable SECRET_KEY_BASE is missing.
+      You can generate one by calling: mix phx.gen.secret
+    """
 
 config :api, Api.Repo,
   username: db_username,
@@ -43,8 +43,7 @@ config :api, ApiWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: secret_key_base,
-  watchers: [
-  ]
+  watchers: []
 
 # ## SSL Support
 #

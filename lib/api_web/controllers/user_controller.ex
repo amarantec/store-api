@@ -42,7 +42,7 @@ defmodule ApiWeb.UserController do
     end
   end
 
-   def sign_in(conn, %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+  def sign_in(conn, %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
     case Api.Guardian.authenticate(email, hash_password) do
       {:ok, user, token} ->
         conn

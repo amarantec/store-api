@@ -68,7 +68,8 @@ defmodule Api.Addresses do
 
   """
   def update_address(user_id, %Address{} = address, attrs) do
-  	true = address.user_id == user_id
+    true = address.user_id == user_id
+
     address
     |> Address.changeset(attrs, user_id)
     |> Repo.update()

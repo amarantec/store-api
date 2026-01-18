@@ -26,7 +26,7 @@ defmodule ApiWeb.UserJSON do
   defp data(%User{} = user) do
     %{
       id: user.id,
-      email: user.email,
+      email: user.email
     }
   end
 

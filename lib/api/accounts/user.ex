@@ -8,7 +8,7 @@ defmodule Api.Accounts.User do
     field :email, :string
     field :hash_password, :string
     field :role, :string
-		has_many :addresses, Api.Addresses.Address
+    has_many :addresses, Api.Addresses.Address
     timestamps(type: :utc_datetime)
   end
 
@@ -23,7 +23,7 @@ defmodule Api.Accounts.User do
     |> put_password_hash()
   end
 
-   defp put_password_hash(
+  defp put_password_hash(
          %Ecto.Changeset{valid?: true, changes: %{hash_password: hash_password}} = changeset
        ) do
     change(changeset, hash_password: Bcrypt.hash_pwd_salt(hash_password))

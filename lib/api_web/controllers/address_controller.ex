@@ -8,17 +8,18 @@ defmodule ApiWeb.AddressController do
   action_fallback ApiWeb.FallbackController
 
   def index(conn, _params) do
-  	user = conn.assigns.current_user
-		adresses = Addresses.list_adresses(user.id)
+    user = conn.assigns.current_user
+    adresses = Addresses.list_adresses(user.id)
     render(conn, :index, adresses: adresses)
   end
 
   def create(conn, %{"address" => address_params}) do
     user = conn.assigns.current_user
+
     with {:ok, %Address{} = address} <- Addresses.create_address(user.id, address_params) do
-     	conn
-     	|> put_status(:created)
-     	|> render(:show, address: address)
+      conn
+      |> put_status(:created)
+      |> render(:show, address: address)
     end
   end
 
@@ -30,7 +31,8 @@ defmodule ApiWeb.AddressController do
 
   def update(conn, %{"id" => id, "address" => address_params}) do
     address = Addresses.get_address!(id)
-		user = conn.assigns.current_user
+    user = conn.assigns.current_user
+
     with {:ok, %Address{} = address} <- Addresses.update_address(user.id, address, address_params) do
       render(conn, :show, address: address)
     end
@@ -38,7 +40,8 @@ defmodule ApiWeb.AddressController do
 
   def delete(conn, %{"id" => id}) do
     address = Addresses.get_address!(id)
-		user = conn.assigns.current_user
+    user = conn.assigns.current_user
+
     with {:ok, %Address{}} <- Addresses.delete_address(user.id, address) do
       send_resp(conn, :no_content, "")
     end
