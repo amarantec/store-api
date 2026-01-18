@@ -6,6 +6,6 @@ defmodule Api.GuardianErrorHandler do
 
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(401, body)
+    |> send_resp(:unauthorized, body)
   end
 end
