@@ -1,24 +1,54 @@
 defmodule ApiWeb.Router do
   use ApiWeb, :router
 
+	@admin_role "admin"
+	@customer_role "customer"
+	@roles %{
+		admin: "admin",
+		user: ["customer", "admin"]
+	}
   pipeline :api do
     plug :accepts, ["json"]
   end
+  
+  pipeline :admin do
+  	plug :api
+  	plug Api.GuardianPipeline
+  	plug ApiWeb.Plugs.RequireRole, role: @roles.admin
+  end
+  
+  pipeline :user do
+		plug :api
+  	plug Api.GuardianPipeline
+  	plug ApiWeb.Plugs.RequireRole, roles: @roles.user
 
-  pipeline :auth do
-    plug Api.GuardianPipeline
   end
 
+	## Public Routes
   scope "/api", ApiWeb do
     pipe_through :api
     post "/accounts/register", UserController, :create
     post "/accounts/sign_in", UserController, :sign_in
     patch "/accounts/reset_password", UserController, :reset_password
+    
+    ## Public Read (no auth)
+    resources "/categories", CategoryController, only: [:index, :show]
+    resources "/products", ProductController, only: [:index, :show]
   end
 
-   scope "/api", ElixirApiJwtWeb do
-    pipe_through [:api, :auth]
-    get "/accounts", AccountController, :index
+	## Routes for authenticated customers
+  scope "/api", ApiWeb do
+  	pipe_through [:user]
+   	resources "/addresses", AddressController
+  end
+  
+  ## Routes for admin only
+  scope "/api", ApiWeb do
+    pipe_through [:admin]
+  	resources "/categories", CategoryController
+  	resources "/products", ProductController
+  	resources "/accounts", UserController
+   	resources "/addresses", AddressController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
