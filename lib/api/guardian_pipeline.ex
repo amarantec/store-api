@@ -7,5 +7,11 @@ defmodule Api.GuardianPipeline do
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.VerifySession
   plug Guardian.Plug.EnsureAuthenticated
-  plug Guardian.Plug.LoadResource
+  plug Guardian.Plug.LoadResource, allow_blank: :true
+  plug :set_current_user
+  
+  defp set_current_user(conn, _) do
+  	current_user = Guardian.Plug.current_resource(conn)
+  	assign(conn, :current_user, current_user)
+  end
 end
