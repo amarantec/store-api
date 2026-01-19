@@ -35,7 +35,7 @@ defmodule Api.Addresses do
       ** (Ecto.NoResultsError)
 
   """
-  def get_address!(user_id, id), do: Repo.get!(Address, id: id, user_id: user_id)
+  def get_address!(user_id, id), do: Repo.get_by!(Address, id: id, user_id: user_id)
 
   @doc """
   Creates a address.
@@ -101,7 +101,7 @@ defmodule Api.Addresses do
       %Ecto.Changeset{data: %Address{}}
 
   """
-  def change_address(%Address{} = address, attrs \\ %{}) do
-    Address.changeset(address, attrs)
+  def change_address(user_id, %Address{} = address, attrs \\ %{}) do
+    Address.changeset(address, attrs, user_id)
   end
 end
