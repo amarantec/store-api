@@ -28,16 +28,16 @@ defmodule ApiWeb.ContactController do
   end
 
   def update(conn, %{"id" => id, "contact" => contact_params}) do
-    contact = Contacts.get_contact!(id)
     user = conn.assigns.current_user
+    contact = Contacts.get_contact!(user.id, id)
     with {:ok, %Contact{} = contact} <- Contacts.update_contact(user.id, contact, contact_params) do
       render(conn, :show, contact: contact)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    contact = Contacts.get_contact!(id)
     user = conn.assigns.current_user
+    contact = Contacts.get_contact!(user.id, id)
     with {:ok, %Contact{}} <- Contacts.delete_contact(user.id, contact) do
       send_resp(conn, :no_content, "")
     end
