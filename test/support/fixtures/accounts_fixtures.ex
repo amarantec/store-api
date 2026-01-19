@@ -1,3 +1,4 @@
+B
 defmodule Api.AccountsFixtures do
   @moduledoc """
   This module defines test helpers for creating
@@ -11,11 +12,11 @@ defmodule Api.AccountsFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: "some email",
-        hash_password: "some hash_password"
+        email: "email@test.com",
+        hash_password: "123456",
+        role: "customer"
       })
       |> Api.Accounts.create_user()
-
     user
   end
 end
