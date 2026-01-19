@@ -3,7 +3,7 @@ defmodule ApiWeb.AddressController do
 
   alias Api.Addresses
   alias Api.Addresses.Address
-  alias Api.Accounts.User
+
 
   action_fallback ApiWeb.FallbackController
 
