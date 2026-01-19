@@ -1,5 +1,7 @@
 defmodule Api.AccountsTest do
   use Api.DataCase
+  use Ecto.Schema
+  import Ecto.Changeset
 
   alias Api.Accounts
 
@@ -8,7 +10,7 @@ defmodule Api.AccountsTest do
 
     import Api.AccountsFixtures
 
-    @invalid_attrs %{email: nil, hash_password: nil}
+    @invalid_attrs %{email: nil, hash_password: nil, role: nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,11 +23,13 @@ defmodule Api.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{email: "some email", hash_password: "some hash_password"}
+      valid_attrs = %{email: "email@test.com", hash_password: "123456", role: "customer"}
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
-      assert user.email == "some email"
-      assert user.hash_password == "some hash_password"
+      assert user.email == "email@test.com"
+      assert String.length(user.hash_password) > 50
+      refute user.hash_password == "123456"
+      assert user.role == "customer"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -34,11 +38,10 @@ defmodule Api.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{email: "some updated email", hash_password: "some updated hash_password"}
-
+      update_attrs = %{email: "email@test.com", hash_password: "123456", role: "customer"}
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
-      assert user.email == "some updated email"
-      assert user.hash_password == "some updated hash_password"
+      assert user.email == "email@test.com"
+      assert user.role == "customer"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
