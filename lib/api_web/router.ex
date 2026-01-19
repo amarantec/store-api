@@ -40,6 +40,7 @@ defmodule ApiWeb.Router do
   scope "/api", ApiWeb do
     pipe_through [:user]
     resources "/addresses", AddressController
+    resources "/contacts", ContactController
   end
 
   ## Routes for admin only
@@ -49,6 +50,7 @@ defmodule ApiWeb.Router do
     resources "/products", ProductController
     resources "/accounts", UserController
     resources "/addresses", AddressController
+    resources "/contacts", ContactController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
